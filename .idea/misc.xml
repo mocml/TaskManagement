@@ -10,9 +10,12 @@
         <entry key="app/src/main/res/drawable/item_task.xml" value="0.1455" />
         <entry key="app/src/main/res/layout/activity_alarm.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1970321655273437" />
+        <entry key="app/src/main/res/layout/activity_task_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_tasks_by_date.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/completed_dialog.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/layout/frm_calendar_view.xml" value="0.11231884057971014" />
         <entry key="app/src/main/res/layout/frm_create_task_sheet.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_filter.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/menu/menu_popup.xml" value="0.20989583333333334" />
       </map>

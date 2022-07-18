@@ -101,4 +101,19 @@ public class Task implements Serializable {
     public void setEvent(String event) {
         this.event = event;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskTitle='" + taskTitle + '\'' +
+                ", date='" + date + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", isComplete=" + isComplete +
+                ", firstAlarmTime='" + firstAlarmTime + '\'' +
+                ", secondAlarmTime='" + secondAlarmTime + '\'' +
+                ", lastAlarm='" + lastAlarm + '\'' +
+                ", event='" + event + '\'' +
+                '}';
+    }
 }

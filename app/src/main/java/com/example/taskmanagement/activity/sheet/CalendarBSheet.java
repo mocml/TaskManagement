@@ -2,8 +2,11 @@ package com.example.taskmanagement.activity.sheet;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,14 +19,19 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.taskmanagement.R;
 import com.example.taskmanagement.activity.activity.MainActivity;
+import com.example.taskmanagement.activity.activity.TasksByDate;
 import com.example.taskmanagement.activity.dao.DBClient;
 import com.example.taskmanagement.activity.model.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +52,15 @@ void bindingAction(){
 
     private void onDayClick(EventDay eventDay) {
         Calendar clickedDayCalendar = eventDay.getCalendar();
-        Toast.makeText(getContext(), "au zia", Toast.LENGTH_SHORT).show();
+        SimpleDateFormat fmDate = new SimpleDateFormat("dd-M-yyyy");
+         String fmDates = fmDate.format(clickedDayCalendar.getTime());
+         List<Task> result = tasks.stream()
+                 .filter(date->date.getDate().equals(fmDates))
+                         .collect(Collectors.toList());
+         result.forEach(System.out::println);
+        Intent intent = new Intent(getContext(), TasksByDate.class);
+        intent.putExtra("task_list", (Serializable) result);
+        getContext().startActivity(intent);
     }
 
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback

@@ -3,6 +3,7 @@ package com.example.taskmanagement.activity.adapter;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -13,12 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanagement.R;
 import com.example.taskmanagement.activity.activity.MainActivity;
+import com.example.taskmanagement.activity.activity.TaskDetail;
 import com.example.taskmanagement.activity.dao.DBClient;
 import com.example.taskmanagement.activity.model.Task;
 import com.example.taskmanagement.activity.sheet.CreateTaskBSheet;
@@ -62,6 +66,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.description.setText(task.getTaskDescription());
         holder.time.setText(task.getLastAlarm());
         holder.status.setText(task.isComplete() ? "COMPLETE" : "UPCOMING");
+        holder.itemView.setOnClickListener(view -> onSelectItem(view, position));
         holder.options.setOnClickListener(view -> showPopUpMenu(view, position));
         try {
             date = inputDateFormat.parse(task.getDate());
@@ -79,6 +84,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onSelectItem(View view, int position) {
+        Intent intent = new Intent(context, TaskDetail.class);
+        Task task = taskList.get(position);
+        intent.putExtra("title",task.getTaskTitle());
+        intent.putExtra("description",task.getTaskDescription());
+        intent.putExtra("date",task.getDate());
+        intent.putExtra("status",task.isComplete());
+        intent.putExtra("time",task.getLastAlarm());
+        try {
+            date = inputDateFormat.parse(task.getDate());
+            outputDateString = dateFormat.format(date);
+
+            String[] items1 = outputDateString.split(" ");
+            String day = items1[0];
+            intent.putExtra("day_of_week",day);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        context.startActivity(intent);
     }
 
     public void showPopUpMenu(View view, int position) {
@@ -111,20 +137,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         popupMenu.show();
     }
 
-    public void showCompleteDialog(int taskId,int position){
-        Dialog dialog = new Dialog(context,R.style.AppTheme);
+    public void showCompleteDialog(int taskId, int position) {
+        Dialog dialog = new Dialog(context, R.style.AppTheme);
         dialog.setContentView(R.layout.completed_dialog);
         Button close = dialog.findViewById(R.id.closeButton);
-        close.setOnClickListener(view->{
-            deleteTaskFromId(taskId,position);
+        close.setOnClickListener(view -> {
+            deleteTaskFromId(taskId, position);
             dialog.dismiss();
         });
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
-    private void deleteTaskFromId(int taskId, int position){
-        class GetSavedTasks extends AsyncTask<Void,Void,List<Task>>{
+    private void deleteTaskFromId(int taskId, int position) {
+        class GetSavedTasks extends AsyncTask<Void, Void, List<Task>> {
 
             @Override
             protected List<Task> doInBackground(Void... voids) {
@@ -175,6 +201,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         ImageView options;
         @BindView(R.id.time)
         TextView time;
+        @BindView(R.id.itemView)
+        CardView cardView;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);

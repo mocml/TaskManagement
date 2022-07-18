@@ -19,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManagement">
         <activity
+            android:name=".activity.activity.TasksByDate"
+            android:exported="false" />
+        <activity
+            android:name=".activity.activity.TaskDetail"
+            android:exported="false" />
+        <activity
             android:name=".activity.activity.AlarmActivity"
             android:exported="false" />
         <activity
@@ -44,4 +50,5 @@
             android:enabled="true"
             android:exported="true" />
     </application>
+
 </manifest>
